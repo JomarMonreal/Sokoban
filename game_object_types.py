@@ -1,0 +1,6 @@
+#definition of game objects
+PLAYER="P"
+BOX="B"
+WALL="#"
+TRIGGER="*"
+GAME_OBJECT_TYPES=(PLAYER,BOX,WALL,TRIGGER)
