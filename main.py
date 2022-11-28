@@ -21,6 +21,7 @@ def main():
             if user_input!=1 and user_input!=2:
                 print("Goodbye!")
                 user_input=0
+                break
             if user_input==1:
                 has_continued=True
         else:
