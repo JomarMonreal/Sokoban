@@ -1,67 +1,90 @@
 import game_map
 
-#saves game in time,background,foreground format
-def save_game(level,background,foreground,time_spent):
+#saves game in time,background,foreground,levels format
+def save_game(background,foreground,time_spent,levels_remaining,data_folder):
     #initialization
-    time_spent_data=[str(time_spent)+"\n"]
-    background_data=["Background:\n"]+game_map.convert_to_string_list(background)
-    foreground_data=["Foreground:\n"]+game_map.convert_to_string_list(foreground)
+    time_spent_data=str(time_spent)
+    background_data=game_map.convert_to_string_list(background)
+    foreground_data=game_map.convert_to_string_list(foreground)
     
     #writing data to file
-    filename=level[:-4]+"_data.txt"
-    game_data_file=open("game_maps_data/"+filename,"w")
-    game_data_file.writelines(time_spent_data)
-    game_data_file.writelines(background_data)
-    game_data_file.writelines(foreground_data)
-
-    #closing file
+    game_data_file=open(data_folder+"/time_spent.txt","w")
+    game_data_file.write(time_spent_data)
     game_data_file.close()
+
+    game_data_file=open(data_folder+"/background.txt","w")
+    game_data_file.writelines(background_data)
+    game_data_file.close()
+
+    game_data_file=open(data_folder+"/foreground.txt","w")
+    game_data_file.writelines(foreground_data)
+    game_data_file.close()
+
+    game_data_file=open(data_folder+"/levels_remaining.txt","w")
+    for level in levels_remaining:
+        game_data_file.write(level+"\n")
+    game_data_file.close()
+
     print("="*30)
     print("Saved Game!")
     return True
 
-#loads game retieving time, background and foreground
-def load_game(level):
-    #initialization
-    is_background=True
-    got_time=False
-    time_spent=0
-    background_data=[]
-    foreground_data=[]
+def save_highscore(highscore,data_folder):
+    file_handler=open(data_folder+"/highscore.txt","w")
+    file_handler.write(str(highscore))
+    file_handler.close()
 
-    #reading file
-    filename=level[:-4]+"_data.txt"
-    game_data_file=open("game_maps_data/"+filename,"r")
-    game_data_lines=game_data_file.readlines()
-    
-    #extracting data from file
-    for line in game_data_lines:
-        game_data_line=line.replace("\n","")
-        
-        #get time_spent
-        if got_time==False:
-            time_spent=float(game_data_line)
-            got_time=True
-            continue
+def load_highscore(data_folder):
+    try:
+        file_reader=open(data_folder+"/highscore.txt","r")
+        highscore=float(file_reader.read())
+        file_reader.close()
+        return highscore
+    except:
+        return 0
 
-        #get foreground and background data
-        if game_data_line=="Foreground:":
-            is_background=False
-            continue
-        if is_background==False:
-            if game_data_line=="Foreground:":
-                continue
-            foreground_data.append([char for char in game_data_line])
-        else:
-            if game_data_line=="Background:":
-                continue
-            background_data.append([char for char in game_data_line])
+def load_game(data_folder):
+    try:
+        #initialization
+        background_data=[]
+        foreground_data=[]
+        remaining_levels=[]
+        time_spent=0
 
-    return time_spent,background_data,foreground_data
+        #reading file
+        game_data_file=open(data_folder+"/time_spent.txt","r")
+        time_spent=float(game_data_file.read())
+        game_data_file.close()
+
+        game_data_file=open(data_folder+"/levels_remaining.txt","r")
+        game_data_lines=game_data_file.readlines()
+        for line in game_data_lines:
+            line=line[:-1]
+            remaining_levels.append(line)
+        game_data_file.close()
+
+        game_data_file=open(data_folder+"/background.txt","r")
+        game_data_lines=game_data_file.readlines()
+        for line in game_data_lines:
+            line=line[:-1]
+            background_data.append([char for char in line])
+        game_data_file.close()
+
+        game_data_file=open(data_folder+"/foreground.txt","r")
+        game_data_lines=game_data_file.readlines()
+        for line in game_data_lines:
+            line=line[:-1]
+            foreground_data.append([char for char in line])
+        game_data_file.close()
+
+        return time_spent,remaining_levels,background_data,foreground_data
+    except:
+        return None
+
 
 #load map from game_maps (default)
-def load_default_level_map(level):
-    level_map_file=open("game_maps/"+level,"r")
+def load_default_level_map(maps_folder,level):
+    level_map_file=open(maps_folder+"/"+level,"r")
     level_map_rows=level_map_file.readlines()
     level_map=[]
     for row in level_map_rows:
@@ -70,4 +93,4 @@ def load_default_level_map(level):
     return level_map
 
 if __name__=='__main__':
-    print(load_game("level1.txt"))
+    print(load_highscore("highscore_10x10.txt","game_mode_10x10_data"))
