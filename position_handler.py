@@ -1,5 +1,6 @@
 import game_object_types
 
+#get positions of all selected game object type in the map
 def get_positions(game_obj_type,level_map):
     positions={}
     count=0
@@ -14,6 +15,7 @@ def get_positions(game_obj_type,level_map):
                 count+=1
     return positions
 
+#get the position of all game objects in the background and foreground map
 def get_all_positions(background_map,foreground_map):
     positions={}
     for game_obj_type in game_object_types.GAME_OBJECT_TYPES:
@@ -21,6 +23,7 @@ def get_all_positions(background_map,foreground_map):
         positions.update(get_positions(game_obj_type,foreground_map))
     return positions
 
+#get the target position of an object depending on its direction
 def get_target_position(direction,game_obj_position_x,game_obj_position_y):
     target_position=[]
     if direction == "up":
