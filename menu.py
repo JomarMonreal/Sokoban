@@ -13,6 +13,7 @@ def display_main_menu():
     print("="*30)
     return user_input
 
+#display the menu for any specified game mode
 def display_game_mode_menu(game_mode_data):
     display_clearer.clear()
     print("="*30)
