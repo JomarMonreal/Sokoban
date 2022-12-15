@@ -10,21 +10,27 @@ import game_finish_handler
 import game_resetter
 import map_randomizer
 
+#main program gameplay
 def start(maps_folder,maps_data_folder,has_continued):
     #initialization of variables
     start_time=time.time()
     saved_time_spent=0
     levels_finished=0
+    is_leaving=False
     levels=[]
+
+    #load saved data when the user has continued the game
     if has_continued:
         saved_time_spent,levels,background_map,foreground_map=game_file_handler.load_game(maps_data_folder)
     else:
-        levels=map_randomizer.randomize_order(os.listdir(maps_folder))
+        levels=map_randomizer.randomize_order(os.listdir(maps_folder)) #get level maps in random order
 
-    is_leaving=False
+    #iterate through each level in loaded levels
     for level in levels:
-        level_map=game_file_handler.load_default_level_map(maps_folder,level)
+
+        #initialize background,foreground, and positions of all objects in map
         if not has_continued:
+            level_map=game_file_handler.load_default_level_map(maps_folder,level)
             background_map=game_map.get_background_from_default(level_map)
             foreground_map=game_map.get_foreground_from_default(level_map)
         positions=position_handler.get_all_positions(background_map,foreground_map)
@@ -74,5 +80,6 @@ def start(maps_folder,maps_data_folder,has_continued):
     else:
         game_finish_handler.finish_game(start_time,saved_time_spent,maps_data_folder)
 
+#test
 if __name__=="__main__":
     start("game_maps_15x15","game_mode_15x15_data",False)
