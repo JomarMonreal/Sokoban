@@ -1,6 +1,6 @@
 import game_map
 
-#saves game in time,background,foreground,levels format
+#saves game in time,background,foreground,levels in the game data folder
 def save_game(background,foreground,time_spent,levels_remaining,data_folder):
     #initialization
     time_spent_data=str(time_spent)
@@ -29,11 +29,13 @@ def save_game(background,foreground,time_spent,levels_remaining,data_folder):
     print("Saved Game!")
     return True
 
+#saves highscore to file
 def save_highscore(highscore,data_folder):
     file_handler=open(data_folder+"/highscore.txt","w")
     file_handler.write(str(highscore))
     file_handler.close()
 
+#returns highscore from file
 def load_highscore(data_folder):
     try:
         file_reader=open(data_folder+"/highscore.txt","r")
@@ -43,6 +45,7 @@ def load_highscore(data_folder):
     except:
         return 0
 
+#returns game data from the data folder
 def load_game(data_folder):
     try:
         #initialization
@@ -92,5 +95,6 @@ def load_default_level_map(maps_folder,level):
         level_map.append([tile for tile in row])
     return level_map
 
+#tester
 if __name__=='__main__':
     print(load_highscore("highscore_10x10.txt","game_mode_10x10_data"))
