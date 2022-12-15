@@ -6,6 +6,7 @@ def generate():
     maps=os.listdir("game_maps_10x10")
     return maps[random.randint(0,len(maps)-1)]
 
+#returns the same list but in randomized order
 def randomize_order(map_list):
     result_list=[]
     while len(map_list)>0:
