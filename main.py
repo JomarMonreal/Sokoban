@@ -9,10 +9,6 @@ import gameplay
 
 #main program for SOKOBAN
 def main():
-    #initialization
-    has_saved=False
-    has_continued=False
-    highscore=0
 
     #main program loop
     user_input=-1
