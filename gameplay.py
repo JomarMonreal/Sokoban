@@ -29,8 +29,8 @@ def start(maps_folder,maps_data_folder,has_continued):
     for level in levels:
 
         #initialize background,foreground, and positions of all objects in map
+        level_map=game_file_handler.load_default_level_map(maps_folder,level)
         if not has_continued:
-            level_map=game_file_handler.load_default_level_map(maps_folder,level)
             background_map=game_map.get_background_from_default(level_map)
             foreground_map=game_map.get_foreground_from_default(level_map)
         positions=position_handler.get_all_positions(background_map,foreground_map)
